@@ -76,7 +76,8 @@ public class Lead extends crmObject {
 
     //Methods
     @Override
-    void update(int choice) {
+    boolean equal(Object x ,int choice) {
         //write something
+        return false;
     }
 }
