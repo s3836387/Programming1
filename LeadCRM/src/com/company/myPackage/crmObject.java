@@ -9,5 +9,5 @@ abstract class crmObject {
     public void setId(int id) {
         this.id = id;
     }
-    abstract void update(int choice);
+    abstract boolean equal(Object x ,int choice);
 }
