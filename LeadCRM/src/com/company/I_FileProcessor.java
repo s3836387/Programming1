@@ -12,4 +12,7 @@ public interface I_FileProcessor {
     int extractID(String ID);
     String formatLeadID(int id);
     String generateLeadID() throws FileNotFoundException;
+    List<List<String>> readFile() throws IOException;
+    void showRecords() throws IOException;
+    void updateFile(List<List<String>> listData) throws IOException;
 }

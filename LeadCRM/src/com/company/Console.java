@@ -14,7 +14,7 @@ public class Console {
         return instance;
     }
 
-    public String dataIn(String prompt) {
+    public String stringIN(String prompt) {
         System.out.print(prompt);
         return scanner.nextLine();
     }

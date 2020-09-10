@@ -4,7 +4,6 @@ import com.company.myPackage.Lead;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 public class Manage {
 
@@ -13,7 +12,11 @@ public class Manage {
     private static I_FileProcessor fileProcessor;
 
     public static void setFilePath(String path) {
-       filePath = path;
+       fileProcessor.setFilePath(path);
+    }
+
+    public static I_FileProcessor file() {
+        return fileProcessor;
     }
 
     private Manage() {
@@ -21,8 +24,8 @@ public class Manage {
 
     public static Lead addNewLead() {
         Lead lead = new Lead();
-        lead.setName(Console.getInstance().dataIn("Name: "));
-        lead.setEmail(Console.getInstance().dataIn("Email: "));
+        lead.setName(Console.getInstance().stringIN("Name: "));
+        lead.setEmail(Console.getInstance().stringIN("Email: "));
         return lead;
     }
 
