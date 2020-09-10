@@ -1,6 +1,8 @@
 package com.company.myPackage;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Lead extends crmObject {
     private String name;
@@ -79,5 +81,12 @@ public class Lead extends crmObject {
     boolean equal(Object x ,int choice) {
         //write something
         return false;
+    }
+
+    public List<String> dataToString() {
+        List<String> data = new ArrayList<>();
+        data.add(name);
+        data.add(email);
+        return data;
     }
 }

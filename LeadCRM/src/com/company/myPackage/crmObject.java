@@ -1,6 +1,6 @@
 package com.company.myPackage;
 
-abstract class crmObject {
+public abstract class crmObject {
     protected int id;
     public crmObject() {}
     public int getId() {
