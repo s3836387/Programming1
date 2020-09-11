@@ -4,6 +4,7 @@ import com.company.myPackage.Lead;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Manage {
 
@@ -38,6 +39,25 @@ public class Manage {
             }
         }
         return index;
+
+    }
+
+    public static void updateLead(List<Lead> leadList, int index) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1.Name 2.Email");
+        int field = Console.getInstance().intIn("choose field to update: ");
+        String temp;
+        switch (field) {
+            case 1 -> {
+                temp = scanner.nextLine();
+                leadList.get(index).setName(temp);
+            }
+            case 2 -> {
+                temp = scanner.nextLine();
+                leadList.get(index).setEmail(temp);
+            }
+            default -> System.out.println("Invalid field");
+        }
 
     }
 

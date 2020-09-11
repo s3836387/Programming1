@@ -17,19 +17,33 @@ public class Main {
         Manage.setFilePath(leadFile);
 
         //Add new lead
-        Lead newLead = Manage.addNewLead();
-        Manage.file().writeNewLead(newLead.dataToString());
-        Manage.file().showRecords();
+        String yn = Console.getInstance().stringIN("Create new lead? y/n: ");
+        if (yn.equals("y")) {
+            Lead newLead = Manage.addNewLead();
+            Manage.file().writeNewLead(newLead.leadToString());
+            Manage.file().showRecords();
+        } else {
+            Manage.file().showRecords();
+        }
 
-        //Delete chosen lead
+
+        //Delete & Update chosen lead
         List<List<String>> tempStringList = Manage.file().readFile();
         List<Lead> tempLeadList = Manage.dataToLeads(tempStringList);
-        String chosenID = Console.getInstance().stringIN("Type in the id of lead you want to delete: ");
+        String chosenID = Console.getInstance().stringIN("Type in the id of lead you want to modify: ");
         int indexOfLead = Manage.chooseLeadByID(tempLeadList, Integer.parseInt(chosenID));
-        tempLeadList.remove(indexOfLead);
+        int choice = Console.getInstance().intIn("1.Update 2.Remove 3.Cancel: ");
+        if (choice == 1) {
+            Manage.updateLead(tempLeadList,indexOfLead);
+        } else if (choice == 2) {
+            tempLeadList.remove(indexOfLead);
+        }
+
         tempStringList = Manage.leadsListToString(tempLeadList);
         Manage.file().updateFile(tempStringList);
         Manage.file().showRecords();
+
+
 
 
 

@@ -22,6 +22,7 @@ public class FileProcessor implements I_FileProcessor {
             pw.print(delimiter + record);
         }
         pw.println();
+        pw.flush();
         pw.close();
     }
 

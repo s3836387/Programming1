@@ -19,6 +19,11 @@ public class Console {
         return scanner.nextLine();
     }
 
+    public int intIn(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextInt();
+    }
+
 
 
 }

@@ -83,7 +83,7 @@ public class Lead extends crmObject {
         return false;
     }
 
-    public List<String> dataToString() {
+    public List<String> leadToString() {
         List<String> data = new ArrayList<>();
         data.add(name);
         data.add(email);
