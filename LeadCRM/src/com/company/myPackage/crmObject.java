@@ -10,4 +10,5 @@ public abstract class crmObject {
         this.id = id;
     }
     abstract boolean equal(Object x ,int choice);
+
 }

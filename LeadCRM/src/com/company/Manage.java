@@ -23,13 +23,14 @@ public class Manage {
     private Manage() {
     }
 
+    //ask user to type detail of new lead
     public static Lead addNewLead() {
         Lead lead = new Lead();
         lead.setName(Console.getInstance().stringIN("Name: "));
         lead.setEmail(Console.getInstance().stringIN("Email: "));
         return lead;
     }
-
+    //return index of a lead in lead array list
     public static int chooseLeadByID(List<Lead> arrayOfLead, int id) {
         int index = 0;
         for (Lead single : arrayOfLead) {
@@ -42,6 +43,7 @@ public class Manage {
 
     }
 
+    //update a lead in Lead array-list
     public static void updateLead(List<Lead> leadList, int index) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("1.Name 2.Email");

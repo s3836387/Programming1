@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.myPackage.Lead;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String leadFile = "C:/Users/quoct/IdeaProjects/Programming1/LeadCRM/src/com/company/leads.csv";
+        String leadFile = "src/com/company/leads.csv";
 
         //Initializing
         FileProcessor fp = new FileProcessor();
@@ -18,13 +19,11 @@ public class Main {
 
         //Add new lead
         String yn = Console.getInstance().stringIN("Create new lead? y/n: ");
-        if (yn.equals("y")) {
+        if (yn.equals("y") || yn.equals("Y")) {
             Lead newLead = Manage.addNewLead();
             Manage.file().writeNewLead(newLead.leadToString());
-            Manage.file().showRecords();
-        } else {
-            Manage.file().showRecords();
         }
+        Manage.file().showRecords();
 
 
         //Delete & Update chosen lead
@@ -42,9 +41,6 @@ public class Main {
         tempStringList = Manage.leadsListToString(tempLeadList);
         Manage.file().updateFile(tempStringList);
         Manage.file().showRecords();
-
-
-
 
 
     }
