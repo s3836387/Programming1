@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class FileProcessor {
-    private static String filePath = "C:/Users/quoct/IdeaProjects/Programming1/LeadCRM/src/com/company/leads.csv";
+    private static String filePath = "leads.csv";
 
     
 //write into the file by line
@@ -56,7 +56,6 @@ public class FileProcessor {
 
         }
         input.close();
-
         return id;
 
     }
