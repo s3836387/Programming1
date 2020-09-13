@@ -23,24 +23,26 @@ public class Main {
             Lead newLead = Manage.addNewLead();
             Manage.file().writeNewLead(newLead.leadToString());
         }
-        Manage.file().showRecords();
+//        Manage.file().showRecords();
 
 
         //Delete & Update chosen lead
         List<List<String>> tempStringList = Manage.file().readFile();
         List<Lead> tempLeadList = Manage.dataToLeads(tempStringList);
-        String chosenID = Console.getInstance().stringIN("Type in the id of lead you want to modify: ");
-        int indexOfLead = Manage.chooseLeadByID(tempLeadList, Integer.parseInt(chosenID));
-        int choice = Console.getInstance().intIn("1.Update 2.Remove 3.Cancel: ");
-        if (choice == 1) {
-            Manage.updateLead(tempLeadList,indexOfLead);
-        } else if (choice == 2) {
-            tempLeadList.remove(indexOfLead);
-        }
+//        String chosenID = Console.getInstance().stringIN("Type in the id of lead you want to modify: ");
+//        int indexOfLead = Manage.chooseLeadByID(tempLeadList, Integer.parseInt(chosenID));
+//        int choice = Console.getInstance().intIn("1.Update 2.Remove 3.Cancel: ");
+//        if (choice == 1) {
+//            Manage.updateLead(tempLeadList,indexOfLead);
+//        } else if (choice == 2) {
+//            tempLeadList.remove(indexOfLead);
+//        }
 
         tempStringList = Manage.leadsListToString(tempLeadList);
         Manage.file().updateFile(tempStringList);
         Manage.file().showRecords();
+        Report report = new Report(tempLeadList);
+        report.showRecordAge();
 
 
     }

@@ -3,6 +3,7 @@ package com.company;
 import java.io.*;
 import java.util.*;
 
+
 public class FileProcessor implements I_FileProcessor {
     private String filePath;
 
@@ -46,7 +47,7 @@ public class FileProcessor implements I_FileProcessor {
     public void showRecords() throws IOException {
         BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
         String line;
-        System.out.println("ID\tname\tEmail");
+        System.out.println("ID\tName\tBirthday\tGender\tPhone\tEmail\tAddress");
         while ((line = csvReader.readLine()) != null) {
             String[] data = line.split(",");
             for (String record : data) {

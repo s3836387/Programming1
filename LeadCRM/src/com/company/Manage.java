@@ -12,9 +12,6 @@ public class Manage {
 
     private static I_FileProcessor fileProcessor;
 
-    public static void setFilePath(String path) {
-       fileProcessor.setFilePath(path);
-    }
 
     public static I_FileProcessor file() {
         return fileProcessor;
@@ -23,11 +20,27 @@ public class Manage {
     private Manage() {
     }
 
+    //Setters
+    public static void setFilePath(String path) {
+        fileProcessor.setFilePath(path);
+    }
+    public static void setFP(FileProcessor fp) {
+        fileProcessor = fp;
+    }
+
+
     //ask user to type detail of new lead
     public static Lead addNewLead() {
+        String stringBDate;
         Lead lead = new Lead();
         lead.setName(Console.getInstance().stringIN("Name: "));
+        stringBDate = Console.getInstance().stringIN("Birthday (YYYY/MM/DD) : ");
+        lead.setStringBDate(stringBDate);
+        lead.setBirthDate(lead.stringToDate(stringBDate));
+        lead.setGender(Boolean.parseBoolean(Console.getInstance().stringIN("Gender (true/false): ")));
+        lead.setPhoneNumber(Console.getInstance().stringIN("Phone number: "));
         lead.setEmail(Console.getInstance().stringIN("Email: "));
+        lead.setAddress(Console.getInstance().stringIN("Address: "));
         return lead;
     }
     //return index of a lead in lead array list
@@ -64,9 +77,6 @@ public class Manage {
     }
 
 
-    public static void setFP(FileProcessor fp) {
-        fileProcessor = fp;
-    }
 
 
     //Convert 2-dimensional String array-list into Lead array-list
@@ -77,7 +87,13 @@ public class Manage {
             tempArr.add(new Lead());
             tempArr.get(counter).setId(extractID(row.get(0)));
             tempArr.get(counter).setName(row.get(1));
-            tempArr.get(counter).setEmail(row.get(2));
+            tempArr.get(counter).setStringBDate(row.get(2));
+            tempArr.get(counter).setBirthDate(tempArr.get(counter).stringToDate(row.get(2)));
+            tempArr.get(counter).setGender(Boolean.valueOf(row.get(3)));
+            tempArr.get(counter).setPhoneNumber(row.get(4));
+            tempArr.get(counter).setEmail(row.get(5));
+            tempArr.get(counter).setAddress(row.get(6));
+
             counter++;
         }
         return tempArr;
@@ -91,7 +107,11 @@ public class Manage {
             List<String> temp = new ArrayList<>();
             temp.add(formatLeadID(single.getId()));
             temp.add(single.getName());
+            temp.add(single.getStringBDate());
+            temp.add(String.valueOf(single.isGender()));
+            temp.add(single.getPhoneNumber());
             temp.add(single.getEmail());
+            temp.add(single.getAddress());
             tempArr.add(temp);
         }
 
