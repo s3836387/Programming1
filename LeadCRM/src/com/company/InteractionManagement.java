@@ -83,12 +83,7 @@ public class InteractionManagement implements DAO {
     }
     // ------- Data selection --------
     @Override
-    public crmObject getObject(String id) throws FileNotFoundException {
-        List<crmObject> interList = getAll();
-        Interaction temp;
-        return null;
-    }
-    public Interaction getObject(int id) throws FileNotFoundException {
+    public crmObject getObject(int id) throws FileNotFoundException {
         List<crmObject> interList = getAll();
         for (crmObject i : interList) {
             if (id == i.getId()){
@@ -145,11 +140,7 @@ public class InteractionManagement implements DAO {
     }
 
     @Override
-    public void deleteObject(crmObject interaction) {
-
-    }
-
-    public void deleteObject1(crmObject interaction) throws IOException {
+    public void deleteObject(crmObject interaction) throws IOException {
         List<crmObject> interList = getAll();
         if(interList.get(0).getId() != interaction.getId()){
             write(((Interaction)interList.get(0)),false,true);

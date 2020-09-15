@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.myPackage.I_FileProcessor;
 import com.company.myPackage.Lead;
 
 import java.time.LocalDate;
@@ -44,6 +45,7 @@ public class Manage {
         lead.setAddress(Console.charIn("Address: "));
         return lead;
     }
+
     //return index of a lead in lead array list
     public static int chooseLeadByID(List<Lead> arrayOfLead, int id) {
         int index = 0;

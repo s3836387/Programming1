@@ -1,4 +1,4 @@
-package com.company;
+package com.company.myPackage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
