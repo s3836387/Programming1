@@ -34,11 +34,9 @@ public class Main {
         if (choice == 1) {
             Manage.updateLead(tempLeadList,indexOfLead);
         } else if (choice == 2) {
-            tempLeadList.remove(indexOfLead);
+            Manage.removeLead(tempLeadList,indexOfLead);
         }
 
-        tempStringList = Manage.leadsListToString(tempLeadList);
-        Manage.file().updateFile(tempStringList);
         Manage.file().showRecords();
         Report report = new Report(tempLeadList);
         report.showRecordAge();

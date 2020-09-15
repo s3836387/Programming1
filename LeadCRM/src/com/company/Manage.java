@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.myPackage.Lead;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +31,9 @@ public class Manage {
     }
 
 
-    //ask user to type detail of new lead
-    public static Lead addNewLead() {
+    //ask user to type detail of new lead and write to the file
+    public static Lead addNewLead() throws IOException {
+        Scanner scanner = new Scanner(System.in);
         String stringBDate;
         Lead lead = new Lead();
         lead.setName(Console.validateName("Name: "));
@@ -41,7 +43,9 @@ public class Manage {
         lead.setGender(Boolean.parseBoolean(Console.charIn("Gender (true/false): ")));
         lead.setPhoneNumber(Console.charIn("Phone number: "));
         lead.setEmail(Console.charIn("Email: "));
-        lead.setAddress(Console.charIn("Address: "));
+        System.out.print("Address: ");
+        lead.setAddress(scanner.nextLine());
+        fileProcessor.writeNewLead(lead.leadToString());
         return lead;
     }
     //return index of a lead in lead array list
@@ -57,8 +61,8 @@ public class Manage {
 
     }
 
-    //update a lead in Lead array-list
-    public static void updateLead(List<Lead> leadList, int index) {
+    //update a lead in Lead array-list and update the file
+    public static void updateLead(List<Lead> leadList, int index) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("----------------");
         System.out.println("1.Name");
@@ -100,7 +104,13 @@ public class Manage {
             }
 
         }
+        fileProcessor.updateFile(leadsListToString(leadList));
 
+    }
+
+    public static void removeLead(List<Lead> leadList, int index) throws IOException {
+        leadList.remove(index);
+        fileProcessor.updateFile(leadsListToString(leadList));
     }
 
 
