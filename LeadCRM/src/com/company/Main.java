@@ -1,8 +1,8 @@
 package com.company;
 
-import com.company.myPackage.Lead;
-
-
+import com.company.myPackage.*;
+import java.util.Scanner;
+import java.time.LocalDate;
 import java.io.IOException;
 import java.util.List;
 
@@ -40,6 +40,20 @@ public class Main {
         Manage.showLeadRecords();
         Report report = new Report(Manage.getLeads());
         report.showRecordAge();
+
+        //Test part
+        LocalDate dob = LocalDate.of(2017, 1, 13);
+        Lead l = new Lead(1,"john","09029332",true,dob,"johnwick@gmail.com","100 Tran Phu");
+        Interaction inter = new Interaction(1,dob,l,"123@gmail.com", "positive");
+    //        System.out.println(inter.getLead().getId());
+    //        System.out.println(inter.getInterDate());
+    //        System.out.println(inter.getLead().getId());
+    //        System.out.println(inter.getPotential().toString());
+        InteractionManagement manage = new InteractionManagement();
+    //        manage.initFile();
+    //        manage.write(inter.toArray(), true);
+        Interaction inter1 = (Interaction) manage.getObject(2);
+        manage.deleteObject(inter1);
 
 
     }

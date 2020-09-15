@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.myPackage.I_FileProcessor;
 import com.company.myPackage.Lead;
 
 import java.io.IOException;
@@ -60,6 +61,7 @@ public class Manage {
         fileProcessor.writeNewLead(lead.leadToString());
 
     }
+
     //return index of a lead in lead array list
     public static int chooseLeadByID() {
         int index = validateID();

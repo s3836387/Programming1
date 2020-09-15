@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.myPackage.I_FileProcessor;
+
 import java.io.*;
 import java.util.*;
 

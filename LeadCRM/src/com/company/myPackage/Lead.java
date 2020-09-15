@@ -112,7 +112,6 @@ public class Lead extends crmObject {
         this.age = Period.between(this.birthDate, currentDate).getYears();
     }
 
-
     public List<String> leadToString() {
         List<String> data = new ArrayList<>();
         data.add(name);
