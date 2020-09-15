@@ -3,7 +3,6 @@ package com.company.myPackage;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Lead extends crmObject {
@@ -16,9 +15,6 @@ public class Lead extends crmObject {
 
 
     private int age;
-
-
-
     private String stringBDate;
 
     //Constructor
@@ -115,6 +111,7 @@ public class Lead extends crmObject {
         LocalDate currentDate = LocalDate.now();
         this.age = Period.between(this.birthDate, currentDate).getYears();
     }
+
 
     public List<String> leadToString() {
         List<String> data = new ArrayList<>();

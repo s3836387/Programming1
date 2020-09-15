@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.myPackage.Lead;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,14 +34,14 @@ public class Manage {
     public static Lead addNewLead() {
         String stringBDate;
         Lead lead = new Lead();
-        lead.setName(Console.getInstance().stringIN("Name: "));
-        stringBDate = Console.getInstance().stringIN("Birthday (YYYY/MM/DD) : ");
+        lead.setName(Console.validateName("Name: "));
+        stringBDate = Console.validateDate("Birthday (YYYY-MM-DD): ");
         lead.setStringBDate(stringBDate);
         lead.setBirthDate(lead.stringToDate(stringBDate));
-        lead.setGender(Boolean.parseBoolean(Console.getInstance().stringIN("Gender (true/false): ")));
-        lead.setPhoneNumber(Console.getInstance().stringIN("Phone number: "));
-        lead.setEmail(Console.getInstance().stringIN("Email: "));
-        lead.setAddress(Console.getInstance().stringIN("Address: "));
+        lead.setGender(Boolean.parseBoolean(Console.charIn("Gender (true/false): ")));
+        lead.setPhoneNumber(Console.charIn("Phone number: "));
+        lead.setEmail(Console.charIn("Email: "));
+        lead.setAddress(Console.charIn("Address: "));
         return lead;
     }
     //return index of a lead in lead array list
@@ -59,19 +60,45 @@ public class Manage {
     //update a lead in Lead array-list
     public static void updateLead(List<Lead> leadList, int index) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("1.Name 2.Email");
-        int field = Console.getInstance().intIn("choose field to update: ");
+        System.out.println("----------------");
+        System.out.println("1.Name");
+        System.out.println("2.Birthday");
+        System.out.println("3.Gender");
+        System.out.println("4.Phone");
+        System.out.println("5.Email");
+        System.out.println("6.Address");
+        System.out.println("----------------");
+        int field = Console.validateInt("Type in one of the number represent the field you want to modify: ",1,6);
         String temp;
         switch (field) {
             case 1 -> {
-                temp = scanner.nextLine();
-                leadList.get(index).setName(temp);
+                String name = Console.validateName("Update name: ");
+                leadList.get(index).setName(name);
             }
             case 2 -> {
-                temp = scanner.nextLine();
+                temp = Console.validateDate("Update birthday: ");
+                leadList.get(index).setStringBDate(temp);
+                leadList.get(index).setBirthDate(LocalDate.parse(temp));
+            }
+            case 3 -> {
+                temp = Console.validateGender("Update gender (true/false): ");
+                leadList.get(index).setGender(Boolean.parseBoolean(temp));
+            }
+            case 4 -> {
+
+                temp = Console.validatePhone("Update phone: ");
+                leadList.get(index).setPhoneNumber(temp);
+            }
+            case 5 -> {
+                temp = Console.validateEmail("Update email: ");
                 leadList.get(index).setEmail(temp);
             }
-            default -> System.out.println("Invalid field");
+            case 6 -> {
+                System.out.print("Update address: ");
+                 temp = scanner.nextLine();
+                leadList.get(index).setAddress(temp);
+            }
+
         }
 
     }
@@ -89,7 +116,7 @@ public class Manage {
             tempArr.get(counter).setName(row.get(1));
             tempArr.get(counter).setStringBDate(row.get(2));
             tempArr.get(counter).setBirthDate(tempArr.get(counter).stringToDate(row.get(2)));
-            tempArr.get(counter).setGender(Boolean.valueOf(row.get(3)));
+            tempArr.get(counter).setGender(Boolean.parseBoolean(row.get(3)));
             tempArr.get(counter).setPhoneNumber(row.get(4));
             tempArr.get(counter).setEmail(row.get(5));
             tempArr.get(counter).setAddress(row.get(6));
