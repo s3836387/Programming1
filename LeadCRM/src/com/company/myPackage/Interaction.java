@@ -1,9 +1,13 @@
 package com.company.myPackage;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Interaction extends crmObject {
-    private Date interDate;
+    private LocalDate interDate;
     private Lead lead;
     private String email;
     private Potential potential;
@@ -12,16 +16,24 @@ public class Interaction extends crmObject {
     public Interaction() {
     }
 
-    public Interaction(int id, Date interDate, Lead lead, String email, Potential potential) {
+    public Interaction(int id, LocalDate interDate, Lead lead, String email, String potential) {
         this.id = id;
         this.interDate = interDate;
         this.lead = lead;
         this.email = email;
-        this.potential= potential;
+        switch (potential.toLowerCase()){
+            case ("positive"):
+                this.potential= Potential.positive;
+            case ("negative"):
+                this.potential= Potential.negative;
+            case ("neutral"):
+            default:
+                this.potential= Potential.neutral;
+        }
     }
 
     //Getter
-    public Date getInterDate() {
+    public LocalDate getInterDate() {
         return interDate;
     }
 
@@ -38,7 +50,7 @@ public class Interaction extends crmObject {
     }
 
     //Setter
-    public void setInterDate(Date interDate) {
+    public void setInterDate(LocalDate interDate) {
         this.interDate = interDate;
     }
 
@@ -71,4 +83,16 @@ public class Interaction extends crmObject {
         //write something
         return false;
     }
+
+    public List<String> toArray() {
+        String leadid = new String("lead_" + String.format("%03d",lead.getId()));
+        List<String> data = new ArrayList<>();
+        data.add(interDate.toString());
+        data.add(leadid);
+        data.add(email);
+        data.add(potential.toString());
+        return data;
+    }
+
+
 }

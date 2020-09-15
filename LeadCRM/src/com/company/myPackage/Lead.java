@@ -1,20 +1,27 @@
 package com.company.myPackage;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Lead extends crmObject {
     private String name;
     private String phoneNumber;
     private boolean gender;
-    private Date birthDate;
+    private LocalDate birthDate;
     private String email;
     private String address;
+
+
+    private int age;
+    private String stringBDate;
 
     //Constructor
     public Lead() {
     }
 
-    public Lead(int id, String name, String phoneNumber, boolean gender, Date birthDate, String email, String address) {
+    public Lead(int id, String name, String phoneNumber, boolean gender, LocalDate birthDate, String email, String address) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -22,6 +29,7 @@ public class Lead extends crmObject {
         this.birthDate = birthDate;
         this.email = email;
         this.address = address;
+
     }
 
     //Getter
@@ -37,7 +45,7 @@ public class Lead extends crmObject {
         return gender;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
@@ -48,6 +56,15 @@ public class Lead extends crmObject {
     public String getAddress() {
         return address;
     }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getStringBDate() {
+        return stringBDate;
+    }
+
 
     //Setter
     public void setName(String name) {
@@ -62,7 +79,7 @@ public class Lead extends crmObject {
         this.gender = gender;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -74,11 +91,37 @@ public class Lead extends crmObject {
         this.address = address;
     }
 
+    public void setStringBDate(String stringBDate) {
+        this.stringBDate = stringBDate;
+    }
+
     //Methods
     @Override
     boolean equal(Object x ,int choice) {
         //write something
         return false;
     }
+
+    public LocalDate stringToDate(String dateString) {
+        LocalDate date = LocalDate.parse(dateString);
+        return date;
+    }
+
+    public void ageCalculator() {
+        LocalDate currentDate = LocalDate.now();
+        this.age = Period.between(this.birthDate, currentDate).getYears();
+    }
+
+    public List<String> leadToString() {
+        List<String> data = new ArrayList<>();
+        data.add(name);
+        data.add(stringBDate);
+        data.add(String.valueOf(gender));
+        data.add(phoneNumber);
+        data.add(email);
+        data.add(address);
+        return data;
+    }
+
 
 }
