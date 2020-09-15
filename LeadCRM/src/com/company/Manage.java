@@ -14,6 +14,8 @@ public class Manage {
 
     private static I_FileProcessor fileProcessor;
 
+    private static List<Lead> leads;
+
 
     public static I_FileProcessor file() {
         return fileProcessor;
@@ -30,9 +32,19 @@ public class Manage {
         fileProcessor = fp;
     }
 
+    //Getters
+    public static List<Lead> getLeads() {
+        return leads;
+    }
+
+    public static void readLeadFile() throws IOException {
+        List<List<String>> stringData = fileProcessor.readFile();
+        leads = dataToLeads(stringData);
+    }
+
 
     //ask user to type detail of new lead and write to the file
-    public static Lead addNewLead() throws IOException {
+    public static void addNewLead() throws IOException {
         Scanner scanner = new Scanner(System.in);
         String stringBDate;
         Lead lead = new Lead();
@@ -46,15 +58,15 @@ public class Manage {
         System.out.print("Address: ");
         lead.setAddress(scanner.nextLine());
         fileProcessor.writeNewLead(lead.leadToString());
-        return lead;
+
     }
     //return index of a lead in lead array list
-    public static int chooseLeadByID(List<Lead> arrayOfLead, int id) {
-        int index = 0;
-        for (Lead single : arrayOfLead) {
-            if (single.getId() == id) {
+    public static int chooseLeadByID() {
+        int index = validateID();
+        for (Lead single : leads) {
+            if (single.getId() == index) {
                 System.out.println("You have chosen: " + formatLeadID(single.getId()));
-                index = arrayOfLead.indexOf(single);
+                index = leads.indexOf(single);
             }
         }
         return index;
@@ -62,7 +74,7 @@ public class Manage {
     }
 
     //update a lead in Lead array-list and update the file
-    public static void updateLead(List<Lead> leadList, int index) throws IOException {
+    public static void updateLead( int index) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("----------------");
         System.out.println("1.Name");
@@ -77,40 +89,45 @@ public class Manage {
         switch (field) {
             case 1 -> {
                 String name = Console.validateName("Update name: ");
-                leadList.get(index).setName(name);
+                leads.get(index).setName(name);
             }
             case 2 -> {
                 temp = Console.validateDate("Update birthday: ");
-                leadList.get(index).setStringBDate(temp);
-                leadList.get(index).setBirthDate(LocalDate.parse(temp));
+                leads.get(index).setStringBDate(temp);
+                leads.get(index).setBirthDate(LocalDate.parse(temp));
             }
             case 3 -> {
                 temp = Console.validateGender("Update gender (true/false): ");
-                leadList.get(index).setGender(Boolean.parseBoolean(temp));
+                leads.get(index).setGender(Boolean.parseBoolean(temp));
             }
             case 4 -> {
 
                 temp = Console.validatePhone("Update phone: ");
-                leadList.get(index).setPhoneNumber(temp);
+                leads.get(index).setPhoneNumber(temp);
             }
             case 5 -> {
                 temp = Console.validateEmail("Update email: ");
-                leadList.get(index).setEmail(temp);
+                leads.get(index).setEmail(temp);
             }
             case 6 -> {
                 System.out.print("Update address: ");
                  temp = scanner.nextLine();
-                leadList.get(index).setAddress(temp);
+                leads.get(index).setAddress(temp);
             }
 
         }
-        fileProcessor.updateFile(leadsListToString(leadList));
+        fileProcessor.updateFile(leadsListToString(leads));
 
     }
 
-    public static void removeLead(List<Lead> leadList, int index) throws IOException {
-        leadList.remove(index);
-        fileProcessor.updateFile(leadsListToString(leadList));
+    //delete lead and write to file
+    public static void removeLead(int index) throws IOException {
+        leads.remove(index);
+        fileProcessor.updateFile(leadsListToString(leads));
+    }
+
+    public static void showLeadRecords() throws IOException {
+        fileProcessor.showRecords();
     }
 
 
@@ -154,6 +171,12 @@ public class Manage {
 
         return tempArr;
     }
+
+    public static int validateID() {
+        int result = Console.validateID(leads);
+        return result;
+    }
+
 
     public static int extractID(String id) {
         int tempID;
