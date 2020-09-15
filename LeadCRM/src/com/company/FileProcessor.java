@@ -1,76 +1,119 @@
 package com.company;
 
-import com.company.myPackage.Lead;
-
 import java.io.*;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.*;
 
-public class FileProcessor {
-    private static String filePath = "leads.csv";
 
-    
-//write into the file by line
-    public static void write(String csvFile, String[] data) throws IOException {
-        PrintWriter pw = new PrintWriter(new FileWriter(csvFile, true));
-        String id = generateID();
+public class FileProcessor implements I_FileProcessor {
+    private String filePath;
+
+    @Override
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    //write into the file by line
+    @Override
+    public void writeNewLead(List<String> data) throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter(filePath, true));
+        String id = generateLeadID();
         String delimiter = ",";
         pw.print(id);
         for (String record : data) {
             pw.print(delimiter + record);
         }
         pw.println();
+        pw.flush();
         pw.close();
     }
-//read file by line and show records to the console
-    public static void showRecords(String csvFile) throws FileNotFoundException {
-        Scanner input = new Scanner(new File(csvFile));
-        String line;
-        System.out.println("ID\tname\tEmail");
-        while (input.hasNext()) {
-            line = input.nextLine();
-            StringTokenizer inReader = new StringTokenizer(line, ",");
-            String id = inReader.nextToken();
-            String name = inReader.nextToken();
-            String email = inReader.nextToken();
-            System.out.println(id + "\t" + name + "\t" + email);
+
+    //update data in the file
+    @Override
+    public void updateFile(List<List<String>> listData) throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter(filePath, false));
+        for (List<String> row : listData) {
+            ListIterator<String> iterator = row.listIterator(1);
+            pw.print(row.get(0));
+            while (iterator.hasNext()) {
+                pw.print("," + iterator.next());
+            }
+            pw.println();
         }
-        input.close();
+        pw.close();
+    }
+
+    //Show records to the console
+    @Override
+    public void showRecords() throws IOException {
+        BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+        String line;
+        System.out.println("ID\tName\tBirthday\tGender\tPhone\tEmail\tAddress");
+        while ((line = csvReader.readLine()) != null) {
+            String[] data = line.split(",");
+            for (String record : data) {
+                System.out.print(record + "\t");
+            }
+            System.out.println();
+        }
+        csvReader.close();
 
     }
 
-//generate an id base on the last line of csv file, if the file is empty return lead_001
-    private static String generateID() throws FileNotFoundException {
+    //read all the data into array list
+    @Override
+    public List<List<String>> readFile() throws IOException {
+        BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+        String row;
+        List<List<String>> records = new ArrayList<>();
+        while ((row = csvReader.readLine()) != null) {
+            String[] data = row.split(",");
+            records.add(Arrays.asList(data));
+        }
+        csvReader.close();
+        return records;
+    }
+
+
+
+
+    //generate an id base on the last line of csv file, if the file is empty return lead_001
+    @Override
+    public String generateLeadID() throws FileNotFoundException {
         File file = new File(filePath);
         Scanner input = new Scanner(new File(filePath));
-        String id ="lead_001";
+        String id = "lead_001";
         String line;
         if (file.length() == 0) {
             id = "lead_001";
         } else while (input.hasNext()) {
             line = input.nextLine();
-            StringTokenizer inReader = new StringTokenizer(line,",");
+            StringTokenizer inReader = new StringTokenizer(line, ",");
             id = inReader.nextToken();
-            int temp = extractLeadID(id) + 1;
+            int temp = extractID(id) + 1;
             id = formatLeadID(temp);
 
         }
         input.close();
+
         return id;
 
     }
-//get integer from lead_xxx
-    private static int extractLeadID(String id) {
+
+
+
+    //get integer from id_xxx
+    @Override
+    public int extractID(String id) {
         int tempID;
-        id = id.substring(5,8);
-        while (id.indexOf("0") == 0) {
-            id = id.substring(1);
-        }
+        id = id.substring(id.lastIndexOf("_") + 1);
         tempID = Integer.parseInt(id);
         return tempID;
     }
-//format integer into lead_xxx
-    private static String formatLeadID(int id) {
-        return "lead_" + String.format("%03d",id);
+
+
+    //format integer into lead_xxx
+    @Override
+    public String formatLeadID(int id) {
+        return "lead_" + String.format("%03d", id);
     }
 }

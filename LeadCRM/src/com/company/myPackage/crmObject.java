@@ -1,6 +1,6 @@
 package com.company.myPackage;
 
-abstract public class crmObject {
+public abstract class crmObject {
     protected int id;
     public crmObject() {}
     public int getId() {
@@ -10,4 +10,5 @@ abstract public class crmObject {
         this.id = id;
     }
     abstract boolean equal(Object x ,int choice);
+
 }
