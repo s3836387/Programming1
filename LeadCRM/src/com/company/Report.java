@@ -14,7 +14,7 @@ public class Report {
 
     public void showRecordAge() {
         List<Integer> ageList = new ArrayList<>();
-        int counter1 = 0, counter2 = 0, counter3 = 0,counter4 = 0;;
+        int counter1 = 0, counter2 = 0, counter3 = 0,counter4 = 0;
         for (Lead lead : data) {
             lead.ageCalculator();
             ageList.add(lead.getAge());
@@ -23,9 +23,9 @@ public class Report {
         for (int age : ageList) {
             if (age <= 10) {
                 counter1++;
-            } else if ((age > 10) && (age <= 20)) {
+            } else if (age <= 20) {
                 counter2++;
-            } else if ((age > 20) && (age <= 60)) {
+            } else if (age <= 60) {
                 counter3++;
             } else {
                 counter4++;
