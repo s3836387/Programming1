@@ -1,7 +1,9 @@
 package com.company;
 
 import com.company.myPackage.I_FileProcessor;
+import com.company.myPackage.Interaction;
 import com.company.myPackage.Lead;
+import com.company.myPackage.crmObject;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -128,8 +130,22 @@ public class Manage {
         fileProcessor.updateFile(leadsListToString(leads));
     }
 
+
     public static void showLeadRecords() throws IOException {
         fileProcessor.showRecords();
+    }
+
+    //sort out and pack the ID of interaction records that related to the chosen lead into an Int array-list
+    public static List<Integer> showRelatedInteractionID(List<crmObject> crmObjectList, int leadID) {
+
+        List<Integer> interID = new ArrayList<>();
+        for (crmObject single : crmObjectList) {
+            Interaction inter = (Interaction) single;
+            if (inter.getLead().getId() == leadID) {
+                interID.add(inter.getId());
+            }
+        }
+        return interID;
     }
 
 
