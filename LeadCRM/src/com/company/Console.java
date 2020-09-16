@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Console {
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     private Console() {}
 
 
@@ -75,8 +75,8 @@ public class Console {
     //validate input date
     public static String validateDate(String prompt) {
         String result = null;
-        Boolean isValid = false;
-        while (isValid == false) {
+        boolean isValid = false;
+        while (!isValid) {
             try {
                 System.out.print(prompt);
                 result = scanner.next();
