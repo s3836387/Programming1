@@ -142,10 +142,14 @@ public class InteractionManagement implements DAO {
     @Override
     public void deleteObject(crmObject interaction) throws IOException {
         List<crmObject> interList = getAll();
+        int x = 1;
         if(interList.get(0).getId() != interaction.getId()){
             write(((Interaction)interList.get(0)),false,true);
+        } else {
+            write(((Interaction) interList.get(1)), false, true);
+            x++;
         }
-        for (int i =1; i < interList.size(); i++) {
+        for (int i = x; i < interList.size(); i++) {
             if (interList.get(i).getId() == interaction.getId()){
                 continue;
             }else{

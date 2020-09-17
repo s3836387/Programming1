@@ -40,6 +40,11 @@ public class Manage {
         return leads;
     }
 
+    //return a lead in lead array list
+    public static Lead getLead(int index) {
+        return leads.get(index);
+    }
+
     public static void readLeadFile() throws IOException {
         List<List<String>> stringData = fileProcessor.readFile();
         leads = dataToLeads(stringData);
