@@ -56,8 +56,8 @@ public class Manage {
         lead.setStringBDate(stringBDate);
         lead.setBirthDate(lead.stringToDate(stringBDate));
         lead.setGender(Boolean.parseBoolean(Console.charIn("Gender (true/false): ")));
-        lead.setPhoneNumber(Console.charIn("Phone number: "));
-        lead.setEmail(Console.charIn("Email: "));
+        lead.setPhoneNumber(Console.validatePhone("Phone number: "));
+        lead.setEmail(Console.validateEmail("Email: "));
         System.out.print("Address: ");
         lead.setAddress(scanner.nextLine());
         fileProcessor.writeNewLead(lead.leadToString());

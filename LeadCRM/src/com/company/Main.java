@@ -2,9 +2,7 @@ package com.company;
 
 import com.company.myPackage.*;
 
-import java.text.NumberFormat;
-import java.util.Scanner;
-import java.time.LocalDate;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class Main {
         Manage.setFilePath(leadFile);
 
         InteractionManagement manageInters = new InteractionManagement();
-        manageInters.initFile();
+        InteractionManagement.initFile();
 
         //Add new lead
         int yn = Console.validateInt("Create new lead? (1.Yes  2.No): ",1,2);
