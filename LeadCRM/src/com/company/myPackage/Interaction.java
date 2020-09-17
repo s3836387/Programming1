@@ -1,26 +1,23 @@
 package com.company.myPackage;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Interaction extends crmObject {
     private LocalDate interDate;
     private Lead lead;
-    private String email;
+    private String interMedium;
     private Potential potential;
 
     //Constructor
     public Interaction() {
     }
 
-    public Interaction(int id, LocalDate interDate, Lead lead, String email, String potential) {
+    public Interaction(int id, LocalDate interDate, Lead lead, String interMedium, String potential) {
         this.id = id;
         this.interDate = interDate;
         this.lead = lead;
-        this.email = email;
+        this.interMedium = interMedium;
         switch (potential.toLowerCase()){
             case ("positive"):
                 this.potential= Potential.positive;
@@ -41,8 +38,8 @@ public class Interaction extends crmObject {
         return lead;
     }
 
-    public String getEmail() {
-        return email;
+    public String getInterMedium() {
+        return interMedium;
     }
 
     public Potential getPotential() {
@@ -58,19 +55,19 @@ public class Interaction extends crmObject {
         this.lead = lead;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setInterMedium(String interMedium) {
+        this.interMedium = interMedium;
     }
 
     public void setPotential(int choice) {
         switch (choice){
-            case(0):
+            case(3):
                 this.potential = Potential.positive;
                 break;
-            case(2):
+            case(1):
                 this.potential = Potential.negative;
                 break;
-            case(1):
+            case(2):
             default:
                 this.potential = Potential.neutral;
                 break;
@@ -84,12 +81,16 @@ public class Interaction extends crmObject {
         return false;
     }
 
+    public LocalDate stringToDate(String dateString) {
+        return LocalDate.parse(dateString);
+    }
+
     public List<String> toArray() {
         String leadid = new String("lead_" + String.format("%03d",lead.getId()));
         List<String> data = new ArrayList<>();
         data.add(interDate.toString());
         data.add(leadid);
-        data.add(email);
+        data.add(interMedium);
         data.add(potential.toString());
         return data;
     }

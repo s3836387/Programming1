@@ -1,7 +1,7 @@
 package com.company;
 
 import com.company.myPackage.Lead;
-
+import com.company.myPackage.Interaction;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -23,6 +23,7 @@ public class Console {
         return scanner.nextInt();
     }
 
+    //-------------- Input validation ------------------
     //check if the input is integer
     public static int validateInt(String prompt) {
         System.out.print(prompt);
@@ -50,7 +51,7 @@ public class Console {
     }
 
     //check if the id is existed
-    public static int validateID(List<Lead> leadList) {
+    public static int validateLeadID(List<Lead> leadList) {
         int id = validateInt("Type in the ID (number only): ");
         while (true) {
             for (Lead lead : leadList) {
@@ -62,7 +63,6 @@ public class Console {
         }
     }
 
-
     //validate name
     public static String validateName(String prompt) {
         String result = scanner.nextLine();
@@ -72,6 +72,7 @@ public class Console {
         }
         return result;
     }
+
     //validate input date
     public static String validateDate(String prompt) {
         String result = null;
@@ -114,6 +115,16 @@ public class Console {
     }
 
     public static String validatePhone(String prompt) {
+        System.out.print(prompt);
+        String result = scanner.next();
+        while (!result.matches("^\\d{10}$")) {
+            System.out.print("Invalid format, try again: ");
+            result = scanner.next();
+        }
+        return result;
+    }
+
+    public static String validateLead(String prompt) {
         System.out.print(prompt);
         String result = scanner.next();
         while (!result.matches("^\\d{10}$")) {

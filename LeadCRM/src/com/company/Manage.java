@@ -66,7 +66,7 @@ public class Manage {
 
     //return index of a lead in lead array list
     public static int chooseLeadByID() {
-        int index = validateID();
+        int index = Console.validateLeadID(leads);
         for (Lead single : leads) {
             if (single.getId() == index) {
                 System.out.println("You have chosen: " + formatLeadID(single.getId()));
@@ -75,6 +75,11 @@ public class Manage {
         }
         return index;
 
+    }
+
+    //return a lead in lead array list
+    public static Lead getLead(int index) {
+        return leads.get(index);
     }
 
     //update a lead in Lead array-list and update the file
@@ -149,8 +154,6 @@ public class Manage {
     }
 
 
-
-
     //Convert 2-dimensional String array-list into Lead array-list
     public static List<Lead> dataToLeads(List<List<String>> data) {
         List<Lead> tempArr = new ArrayList<>();
@@ -190,10 +193,6 @@ public class Manage {
         return tempArr;
     }
 
-    public static int validateID() {
-        int result = Console.validateID(leads);
-        return result;
-    }
 
 
     public static int extractID(String id) {

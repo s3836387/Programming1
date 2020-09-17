@@ -3,6 +3,7 @@ package com.company;
 import com.company.myPackage.*;
 
 import java.io.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 
 public class InteractionManagement implements DAO {
     private static InteractionManagement MANAGE = new InteractionManagement();
-    private static final String filePath = "src/com/company/dummy2.csv";
+    private static final String filePath = "src/com/company/interaction.csv";
 
     // ------- Initialize file --------
     public static boolean initFile() {
@@ -27,12 +28,12 @@ public class InteractionManagement implements DAO {
 
     // ------- File Writer --------
     public static void write(crmObject inter, boolean isappend, boolean isDel) {
-        List <String> interaction = ((Interaction)inter).toArray();
+        List<String> interaction = ((Interaction) inter).toArray();
         try {
             FileWriter myWriter = new FileWriter(filePath, isappend);
-            if (isDel){
+            if (isDel) {
                 myWriter.append(formatID(inter.getId())).append(",").append(String.join(",", interaction)).append("\n");
-            }else{
+            } else {
                 myWriter.append(generateID()).append(",").append(String.join(",", interaction)).append("\n");
             }
 
@@ -42,6 +43,7 @@ public class InteractionManagement implements DAO {
             e.printStackTrace();
         }
     }
+
     // ------- End --------
     // ------- File Reader --------
     @Override
@@ -60,8 +62,8 @@ public class InteractionManagement implements DAO {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        System.out.println(temp);
     }
+
     public List<crmObject> getAll() throws FileNotFoundException {
         List<crmObject> interactions = new ArrayList<>();
         String temp = "temp";
@@ -72,27 +74,32 @@ public class InteractionManagement implements DAO {
                 String[] data = row.split(",");
                 Lead lead = new Lead();
                 lead.setId(extractID(data[2]));
-                interactions.add(new Interaction(extractID(data[0]),LocalDate.parse(data[1]),lead,data[3],data[4]));
+                interactions.add(new Interaction(extractID(data[0]), LocalDate.parse(data[1]), lead, data[3], data[4]));
             }
             csvReader.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        return interactions;
+        return insertionSort(interactions);
     }
+
     // ------- Data selection --------
     @Override
     public crmObject getObject(int id) throws FileNotFoundException {
         List<crmObject> interList = getAll();
-        for (crmObject i : interList) {
-            if (id == i.getId()){
-                return (Interaction)i;
-            }
+        int index = binarySearch(interList, id);
+        if (index != -1) {
+            return (Interaction) interList.get(index);
         }
+
         return null;
     }
-  
+    public crmObject getObjectbyIndex(int index) throws FileNotFoundException {
+        List<crmObject> interList = getAll();
+        return (Interaction) interList.get(index);
+    }
+
     // ------- End Readers --------
 
 
@@ -123,7 +130,7 @@ public class InteractionManagement implements DAO {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
             }
-            id = formatID(extractID(temp)+1);
+            id = formatID(extractID(temp) + 1);
         }
         return id;
     }
@@ -135,24 +142,105 @@ public class InteractionManagement implements DAO {
     //------- End ID process --------
 
     @Override
-    public void updateObject(crmObject interaction) {
+    public void updateObject(crmObject newInter) throws FileNotFoundException {
         List<crmObject> interList = getAll();
+        int index = binarySearch(interList, newInter.getId());
+        if (index != -1) {
+            interList.set(index, newInter);
+        } else {
+            System.out.println("Interaction does not exist.");
+        }
+        write(((Interaction) interList.get(0)), false, true);
+        for (int i = 1; i < interList.size(); i++) {
+            write(((Interaction) interList.get(i)), true, true);
+        }
+        System.out.println("Update successfully.");
     }
+    
 
     @Override
     public void deleteObject(crmObject interaction) throws IOException {
         List<crmObject> interList = getAll();
         int x = 1;
-        if(interList.get(0).getId() != interaction.getId()){
-            write(((Interaction)interList.get(0)),false,true);
-        } else{
-            write(((Interaction)interList.get(1)),false,true);
+        if (interList.get(0).getId() != interaction.getId()) {
+            write(((Interaction) interList.get(0)), false, true);
+        } else {
+            write(((Interaction) interList.get(1)), false, true);
             x++;
         }
         for (int i = x; i < interList.size(); i++) {
-            if (interList.get(i).getId() != interaction.getId()){
-                write(((Interaction)interList.get(i)),true,true);
+            if (interList.get(i).getId() != interaction.getId()) {
+                write(((Interaction) interList.get(i)), true, true);
             }
         }
+    }
+
+    // ------- Util methods ---------
+    public List<crmObject> insertionSort(List<crmObject> array) {
+        for (int i = 1; i < array.size(); i++) {
+            crmObject current = array.get(i);
+            int j = i - 1;
+            while (j >= 0 && current.getId() < array.get(j).getId()) {
+                array.set(j + 1, array.get(j));
+                j--;
+            }
+            // at this point we've exited, so j is either -1
+            // or it's at the first element where current >= a[j]
+            array.set(j + 1, current);
+        }
+        return array;
+    }
+
+    public static int binarySearch(List<crmObject> arr, int elementToSearch) {
+        int firstIndex = 0;
+        int lastIndex = arr.size() - 1;
+
+        // termination condition (element isn't present)
+        while (firstIndex <= lastIndex) {
+            int middleIndex = (firstIndex + lastIndex) / 2;
+            // if the middle element is our goal element, return its index
+            if (arr.get(middleIndex).getId() == elementToSearch) {
+                return middleIndex;
+            }
+
+            // if the middle element is smaller
+            // point our index to the middle+1, taking the first half out of consideration
+            else if (arr.get(middleIndex).getId() < elementToSearch)
+                firstIndex = middleIndex + 1;
+
+                // if the middle element is bigger
+                // point our index to the middle-1, taking the second half out of consideration
+            else if (arr.get(middleIndex).getId() > elementToSearch)
+                lastIndex = middleIndex - 1;
+
+        }
+        return -1;
+    }
+
+    public  int binarySearchObject( int elementToSearch) throws FileNotFoundException {
+        List<crmObject> arr = getAll();
+        int firstIndex = 0;
+        int lastIndex = arr.size() - 1;
+
+        // termination condition (element isn't present)
+        while (firstIndex <= lastIndex) {
+            int middleIndex = (firstIndex + lastIndex) / 2;
+            // if the middle element is our goal element, return its index
+            if (arr.get(middleIndex).getId() == elementToSearch) {
+                return middleIndex;
+            }
+
+            // if the middle element is smaller
+            // point our index to the middle+1, taking the first half out of consideration
+            else if (arr.get(middleIndex).getId() < elementToSearch)
+                firstIndex = middleIndex + 1;
+
+                // if the middle element is bigger
+                // point our index to the middle-1, taking the second half out of consideration
+            else if (arr.get(middleIndex).getId() > elementToSearch)
+                lastIndex = middleIndex - 1;
+
+        }
+        return -1;
     }
 }
