@@ -2,7 +2,7 @@ package com.company;
 
 import com.company.myPackage.*;
 
-import java.util.Scanner;
+
 import java.time.LocalDate;
 
 import java.io.IOException;
@@ -98,7 +98,7 @@ public class Main {
         // ----- Interaction management class -----
         InteractionManagement manage = new InteractionManagement();
         while (isrun) {
-            Scanner scanner = new Scanner(System.in);
+
             System.out.println("----------------");
             System.out.println("1.Show all records");
             System.out.println("2.Add new interaction");
@@ -108,9 +108,7 @@ public class Main {
 
             int interMenu = Console.validateInt("Type in number of your choice: ", 1, 4);
             switch (interMenu) {
-                case 1 -> {
-                    manage.readAll();
-                }
+                case 1 -> manage.readAll();
                 case 2 -> {
                     // Add interaction
                     Manage.readLeadFile();
@@ -264,8 +262,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        boolean con = true;
-        while (con) {
+        while (true) {
 
             System.out.println();
             System.out.println("---MAIN MENU----");
