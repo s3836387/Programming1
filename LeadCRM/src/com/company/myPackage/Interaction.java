@@ -21,11 +21,14 @@ public class Interaction extends crmObject {
         switch (potential.toLowerCase()){
             case ("positive"):
                 this.potential= Potential.positive;
+                break;
             case ("negative"):
                 this.potential= Potential.negative;
+                break;
             case ("neutral"):
             default:
                 this.potential= Potential.neutral;
+                break;
         }
     }
 
@@ -60,17 +63,10 @@ public class Interaction extends crmObject {
     }
 
     public void setPotential(int choice) {
-        switch (choice){
-            case(3):
-                this.potential = Potential.positive;
-                break;
-            case(1):
-                this.potential = Potential.negative;
-                break;
-            case(2):
-            default:
-                this.potential = Potential.neutral;
-                break;
+        switch (choice) {
+            case (3) -> this.potential = Potential.positive;
+            case (1) -> this.potential = Potential.negative;
+            default -> this.potential = Potential.neutral;
         }
     }
 

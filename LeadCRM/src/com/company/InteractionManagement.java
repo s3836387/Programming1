@@ -95,6 +95,7 @@ public class InteractionManagement implements DAO {
 
         return null;
     }
+
     public crmObject getObjectbyIndex(int index) throws FileNotFoundException {
         List<crmObject> interList = getAll();
         return (Interaction) interList.get(index);

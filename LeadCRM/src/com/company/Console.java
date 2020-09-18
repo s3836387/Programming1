@@ -76,19 +76,26 @@ public class Console {
     //validate input date
     public static String validateDate(String prompt) {
         String result = null;
+        // Parses the first date
+        LocalDate valDate;
+        // Parses the second date
+        LocalDate limitDate = LocalDate.parse("2000-01-01");
         boolean isValid = false;
         while (!isValid) {
             try {
                 System.out.print(prompt);
                 result = scanner.next();
-                LocalDate.parse(result);
-                isValid = true;
+                valDate = LocalDate.parse(result);
+                if (valDate.isBefore(LocalDate.now())){
+                    isValid = true;
+                }else{
+                    System.out.println("Please input a valid date! (After 2000-01-01)");
+                }
             } catch (DateTimeParseException e) {
                 System.out.println("Wrong date format!");
                 isValid = false;
             }
         }
-
         return result;
 
     }

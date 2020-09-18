@@ -96,15 +96,31 @@ public class Main {
                     //-------- Get interaction info --------
                     newInter.setInterDate(LocalDate.parse(Console.validateDate("Interaction date (YYYY-MM-DD): ")));
                     newInter.setLead(newlead);
+                    // Interaction medium choice
                     System.out.println("1.Email");
                     System.out.println("2.Phone");
                     System.out.println("3.Face-to-face");
                     System.out.println("4.Social media");
-                    newInter.setInterMedium(Console.charIn("Email: "));
+                    int choice = Console.validateInt("Choice: ", 1, 4);
+                    switch (choice){
+                        case 1 ->{
+                            newInter.setInterMedium("email");
+                        }
+                        case 2 ->{
+                            newInter.setInterMedium("phone");
+                        }
+                        case 3 ->{
+                            newInter.setInterMedium("face-to-face");
+                        }
+                        case 4 ->{
+                            newInter.setInterMedium("Social_media");
+                        }
+                    }
+                    // Potential choice
                     System.out.println("1.Negative");
                     System.out.println("2.Neutral");
                     System.out.println("3.Positive");
-                    int choice = Console.validateInt("Choice: ", 1, 3);
+                    choice = Console.validateInt("Choice: ", 1, 3);
                     newInter.setPotential(choice);
                     //-------- End --------
                     // -------- Write into file --------
@@ -128,7 +144,7 @@ public class Main {
                                 System.out.println("----------------");
                                 System.out.println("1.Date");
                                 System.out.println("2.Lead");
-                                System.out.println("3.Email");
+                                System.out.println("3.Contact medium");
                                 System.out.println("4.Potential");
                                 System.out.println("5.Save & Exit");
                                 System.out.println("----------------");
@@ -172,6 +188,30 @@ public class Main {
                     }
                 }
                 case 4 -> {
+                    Report report = new Report();
+                    LocalDate startDate= LocalDate.parse(Console.validateDate("From date (YYYY-MM-dd number only): "));
+                    LocalDate endDate =LocalDate.parse(Console.validateDate("To date (YYYY-MM-dd number only): "));;
+                    boolean isValid = false;
+                    while (!isValid) {
+                        if(startDate.compareTo(endDate)>0){
+                            System.out.println("Start date cannot be after end date!");
+                            startDate= LocalDate.parse(Console.validateDate("From date (YYYY-MM-dd number only): "));
+                        }else{
+                            isValid =true;
+                        }
+                        if(endDate.compareTo(startDate)<0){
+                            System.out.println("End date cannot be before start date!");
+                            endDate= LocalDate.parse(Console.validateDate("To date (YYYY-MM-dd number only): "));
+                            isValid =false;
+                        }else{
+                            isValid =true;
+                        }
+
+                    }
+                    report.showPotentialReport(manage.getAll(),startDate,endDate);
+                }
+                case 5 ->{
+
                     isrun = false;
                 }
             }
@@ -188,7 +228,7 @@ public class Main {
         FileProcessor fp = new FileProcessor();
         Manage.setFP(fp);
         Manage.setFilePath(leadFile);
-
+        InteractionManagement manage = new InteractionManagement();
 //        //Test part
 //        LocalDate dob = LocalDate.of(2017, 1, 13);
 //        Lead l = new Lead(1, "john", "09029332", true, dob, "johnwick@gmail.com", "100 Tran Phu");
@@ -200,10 +240,27 @@ public class Main {
 //        InteractionManagement manage = new InteractionManagement();
 //        manage.initFile();
 //        manage.write(inter.toArray(), true);
+        Report report = new Report();
+        LocalDate startDate= LocalDate.parse(Console.validateDate("From date (YYYY-MM-dd number only): "));
+        LocalDate endDate =LocalDate.parse(Console.validateDate("To date (YYYY-MM-dd number only): "));;
+        boolean isValid = false;
+        while (!isValid) {
+            if(startDate.compareTo(endDate)>0){
+                System.out.println("Start date cannot be after end date!");
+                startDate= LocalDate.parse(Console.validateDate("From date (YYYY-MM-dd number only): "));
+            }else{
+                isValid =true;
+            }
+            if(endDate.compareTo(startDate)<0){
+                System.out.println("End date cannot be before start date!");
+                endDate= LocalDate.parse(Console.validateDate("To date (YYYY-MM-dd number only): "));
+                isValid =false;
+            }else{
+                isValid =true;
+            }
 
-        interManagement();
-
-
+        }
+        report.showInterMonth(manage.getAll(),startDate,endDate);
     }
 }
 
