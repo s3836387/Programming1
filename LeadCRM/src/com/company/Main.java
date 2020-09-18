@@ -11,8 +11,8 @@ import java.util.List;
 
 public class Main {
     public static void leadManagement() throws IOException {
-        Boolean con = true;
-        while (con) {
+        Boolean cont = true;
+        while (cont) {
             String leadFile = "src/com/company/leads.csv";
 
             //Initializing
@@ -82,11 +82,11 @@ public class Main {
                     Manage.readLeadFile();
                     Report report = new Report(Manage.getLeads());
                     report.showRecordAge();
-                    con = false;
+                    cont = false;
                 }
 
                 case 4 -> {
-                    con = false;
+                    cont = false;
                 }
             }
         }

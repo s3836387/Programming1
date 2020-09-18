@@ -92,7 +92,7 @@ public class Console {
                     System.out.println("Please input a valid date! (After 2000-01-01)");
                 }
             } catch (DateTimeParseException e) {
-                System.out.println("Wrong date format!");
+                System.out.println("Wrong date format!(yyyy-mm-dd)");
                 isValid = false;
             }
         }
@@ -115,7 +115,7 @@ public class Console {
                     System.out.println("Cannot enter date after present time! Please re-enter date: ");
                 }
             } catch (DateTimeParseException e) {
-                System.out.println("Wrong date format!");
+                System.out.println("Wrong date format!(yyyy-mm-dd)");
                 isValid = false;
             }
         }
