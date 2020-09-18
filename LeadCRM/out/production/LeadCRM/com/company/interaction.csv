@@ -5,6 +5,7 @@ inter_005,2017-01-13,lead_001,123@gmail.com,neutral
 inter_006,2017-01-13,lead_001,123@gmail.com,neutral
 inter_007,2017-01-13,lead_001,123@gmail.com,neutral
 inter_008,2020-09-06,lead_005,234@gmail.com,neutral
-inter_009,2020-09-06,lead_006,123,negative
+inter_009,2020-09-14,lead_006,123,negative
 inter_010,2020-09-06,lead_005,1,negative
 inter_011,2020-09-06,lead_005,Social media,positive
+inter_012,2020-09-17,lead_005,email,positive
