@@ -103,7 +103,7 @@ public class Manage {
                 leads.get(index).setName(name);
             }
             case 2 -> {
-                temp = Console.validateDate("Update birthday: (number format YYYY-MM-dd)");
+                temp = Console.validateDate("Update birthday: (number format YYYY-MM-dd): ");
                 leads.get(index).setStringBDate(temp);
                 leads.get(index).setBirthDate(LocalDate.parse(temp));
             }

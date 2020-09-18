@@ -129,7 +129,7 @@ public class Main {
                     Potential newpotential;
                     Interaction newInter = new Interaction();
                     //-------- Get interaction info --------
-                    newInter.setInterDate(LocalDate.parse(Console.validateDate("Interaction date (YYYY-MM-DD): ")));
+                    newInter.setInterDate(LocalDate.parse(Console.validateDateWithLimit("Interaction date (YYYY-MM-DD): ")));
                     newInter.setLead(newlead);
                     // Interaction medium choice
                     System.out.println("1.Email");
@@ -189,7 +189,7 @@ public class Main {
                                 String temp;
                                 switch (field) {
                                     case 1 -> {
-                                        temp = Console.validateDate("Update interaction date to (YYYY-MM-DD): ");
+                                        temp = Console.validateDateWithLimit("Update interaction date to (YYYY-MM-DD): ");
                                         inter1.setInterDate(LocalDate.parse(temp));
                                     }
                                     case 2 -> {
@@ -242,19 +242,19 @@ public class Main {
                 }
                 case 4 -> {
                     Report report = new Report();
-                    LocalDate startDate= LocalDate.parse(Console.validateDate("From date (YYYY-MM-dd number only): "));
-                    LocalDate endDate =LocalDate.parse(Console.validateDate("To date (YYYY-MM-dd number only): "));;
+                    LocalDate startDate= LocalDate.parse(Console.validateDateWithLimit("From date (YYYY-MM-dd number only): "));
+                    LocalDate endDate =LocalDate.parse(Console.validateDateWithLimit("To date (YYYY-MM-dd number only): "));;
                     boolean isValid = false;
                     while (!isValid) {
                         if(startDate.compareTo(endDate)>0){
                             System.out.println("Start date cannot be after end date!");
-                            startDate= LocalDate.parse(Console.validateDate("From date (YYYY-MM-dd number only): "));
+                            startDate= LocalDate.parse(Console.validateDateWithLimit("From date (YYYY-MM-dd number only): "));
                         }else{
                             isValid =true;
                         }
                         if(endDate.compareTo(startDate)<0){
                             System.out.println("End date cannot be before start date!");
-                            endDate= LocalDate.parse(Console.validateDate("To date (YYYY-MM-dd number only): "));
+                            endDate= LocalDate.parse(Console.validateDateWithLimit("To date (YYYY-MM-dd number only): "));
                             isValid =false;
                         }else{
                             isValid =true;

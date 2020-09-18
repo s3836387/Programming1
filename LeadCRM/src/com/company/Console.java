@@ -74,7 +74,7 @@ public class Console {
     }
 
     //validate input date
-    public static String validateDate(String prompt) {
+    public static String validateDateWithLimit(String prompt) {
         String result = null;
         // Parses the first date
         LocalDate valDate;
@@ -98,6 +98,28 @@ public class Console {
         }
         return result;
 
+    }
+
+    public static String validateDate(String prompt) {
+        String result = null;
+        LocalDate valDate;
+        boolean isValid = false;
+        while (!isValid) {
+            try {
+                System.out.print(prompt);
+                result = scanner.next();
+                valDate = LocalDate.parse(result);
+                if (valDate.isBefore(LocalDate.now())){
+                    isValid = true;
+                }else{
+                    System.out.println("Cannot enter date after present time! Please re-enter date: ");
+                }
+            } catch (DateTimeParseException e) {
+                System.out.println("Wrong date format!");
+                isValid = false;
+            }
+        }
+        return result;
     }
 
     //check if input match true or false
