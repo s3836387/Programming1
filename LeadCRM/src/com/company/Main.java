@@ -286,7 +286,6 @@ public class Main {
                     isrun = false;
                 }
             }
-
         }
 
 

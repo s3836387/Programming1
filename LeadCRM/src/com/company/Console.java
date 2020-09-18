@@ -11,8 +11,6 @@ public class Console {
 
     private static final Scanner scanner = new Scanner(System.in);
     private Console() {}
-
-
     public static String charIn(String prompt) {
         System.out.print(prompt);
         return scanner.next();
