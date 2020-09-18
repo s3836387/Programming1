@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 
 
+
 public class InteractionManagement implements DAO {
     private static InteractionManagement MANAGE = new InteractionManagement();
     private static final String filePath = "src/com/company/interaction.csv";
@@ -53,8 +54,8 @@ public class InteractionManagement implements DAO {
         try {
             BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
             while ((row = csvReader.readLine()) != null) {
-                System.out.println(row);
                 String[] data = row.split(",");
+                System.out.format("%10s%20s%15s%15s%15s\n", data[0], data[1],data[2] ,data[3],data[4]);
                 temp = data[0];
             }
             csvReader.close();

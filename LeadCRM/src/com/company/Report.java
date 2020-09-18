@@ -62,6 +62,8 @@ public class Report {
 
     public void showInterMonth(List<crmObject> list,LocalDate startdate, LocalDate enddate){
         List<ReportMonth> monthlist = new ArrayList<>();
+        startdate = startdate.withDayOfMonth(1);
+        enddate = enddate.withDayOfMonth(enddate.lengthOfMonth());
         for (crmObject inter: list) {
             Interaction interaction = (Interaction) inter;
             if (interaction.getInterDate().compareTo(startdate) >=0 && interaction.getInterDate().compareTo(enddate) <=0){
@@ -73,9 +75,12 @@ public class Report {
                 }
             }
         }
-        System.out.print(monthlist.get(0).getMonth());
-        System.out.println(monthlist.get(0).getYear());
-        System.out.println(monthlist.get(0).getNumber());
+        for (ReportMonth data: monthlist) {
+            System.out.print(data.getMonth() +" ");
+            System.out.print(data.getYear()+": ");
+            System.out.println(data.getNumber());
+        }
+
     }
     public int indexMonth(List<ReportMonth> list, Month month, int year){
         for (int i = 0; i < list.size(); i++) {

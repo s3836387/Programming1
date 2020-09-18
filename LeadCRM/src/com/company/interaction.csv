@@ -1,11 +1,15 @@
-inter_002,2020-12-02,lead_005,465@gmai.com,positive
-inter_003,2017-01-13,lead_001,123@gmail.com,positive
-inter_004,2017-01-13,lead_001,123@gmail.com,neutral
-inter_005,2017-01-13,lead_001,123@gmail.com,neutral
-inter_006,2017-01-13,lead_001,123@gmail.com,neutral
-inter_007,2017-01-13,lead_001,123@gmail.com,neutral
-inter_008,2020-09-06,lead_005,234@gmail.com,neutral
-inter_009,2020-09-14,lead_006,123,negative
-inter_010,2020-09-06,lead_005,1,negative
-inter_011,2020-09-06,lead_005,Social media,positive
-inter_012,2020-09-17,lead_005,email,positive
+inter_001,2019-07-13,lead_012,face-to-face,positive
+inter_002,2019-08-26,lead_011,face-to-face,positive
+inter_003,2019-09-25,lead_011,face-to-face,neutral
+inter_004,2019-11-11,lead_009,email,neutral
+inter_005,2019-11-28,lead_006,phone,negative
+inter_006,2019-12-31,lead_012,email,neutral
+inter_007,2020-01-16,lead_002,Social_media,neutral
+inter_008,2020-02-06,lead_008,Social_media,neutral
+inter_009,2020-02-26,lead_008,Social_media,positive
+inter_010,2020-03-15,lead_007,email,neutral
+inter_011,2020-03-28,lead_001,email,neutral
+inter_012,2020-04-02,lead_010,phone,positive
+inter_013,2020-04-12,lead_005,Social_media,positive
+inter_014,2020-07-11,lead_005,phone,positive
+inter_015,2020-08-27,lead_001,phone,neutral

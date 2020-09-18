@@ -4,7 +4,7 @@ import com.company.myPackage.*;
 
 
 import java.time.LocalDate;
-
+import java.util.Formatter;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,13 +20,10 @@ public class Main {
             Manage.setFP(fp);
             Manage.setFilePath(leadFile);
 
-
-
-
-
             Manage.showLeadRecords();
 
             //Start lead management
+            System.out.println("----------------Lead Main Menu----------------");
             System.out.println("-----------------");
             System.out.println("1.Create new lead");
             System.out.println("2.Modify an existing lead");
@@ -94,10 +91,6 @@ public class Main {
             }
         }
 
-
-
-
-
     }
 
     public static void interManagement() throws IOException {
@@ -110,18 +103,25 @@ public class Main {
         Manage.setFilePath(leadFile);
         // ----- Interaction management class -----
         InteractionManagement manage = new InteractionManagement();
+        if(InteractionManagement.initFile()){
+            System.out.println("New file created!");
+        };
         while (isrun) {
-
+            System.out.println("----------------Interaction Main Menu----------------");
             System.out.println("----------------");
             System.out.println("1.Show all records");
             System.out.println("2.Add new interaction");
             System.out.println("3.Select interaction");
-            System.out.println("4.Exit");
+            System.out.println("4.Report");
+            System.out.println("5.Exit");
             System.out.println("----------------");
 
-            int interMenu = Console.validateInt("Type in number of your choice: ", 1, 4);
+            int interMenu = Console.validateInt("Type in number of your choice: ", 1, 5);
             switch (interMenu) {
-                case 1 -> manage.readAll();
+                case 1 -> {
+                    System.out.format("%10s%20s%10s%17s%15s\n", "Interaction ID", "Interaction Date","Lead ID" ,"By which mean","Potential");
+                    manage.readAll();
+                }
                 case 2 -> {
                     // Add interaction
                     Manage.readLeadFile();
@@ -242,29 +242,47 @@ public class Main {
                 }
                 case 4 -> {
                     Report report = new Report();
-                    LocalDate startDate= LocalDate.parse(Console.validateDateWithLimit("From date (YYYY-MM-dd number only): "));
-                    LocalDate endDate =LocalDate.parse(Console.validateDateWithLimit("To date (YYYY-MM-dd number only): "));;
-                    boolean isValid = false;
-                    while (!isValid) {
-                        if(startDate.compareTo(endDate)>0){
-                            System.out.println("Start date cannot be after end date!");
-                            startDate= LocalDate.parse(Console.validateDateWithLimit("From date (YYYY-MM-dd number only): "));
-                        }else{
-                            isValid =true;
-                        }
-                        if(endDate.compareTo(startDate)<0){
-                            System.out.println("End date cannot be before start date!");
-                            endDate= LocalDate.parse(Console.validateDateWithLimit("To date (YYYY-MM-dd number only): "));
-                            isValid =false;
-                        }else{
-                            isValid =true;
-                        }
+                    int reportMenu;
 
-                    }
-                    report.showPotentialReport(manage.getAll(),startDate,endDate);
+                    do {
+                        System.out.println("----------------");
+                        System.out.println("1.Show all number of interactions by potential");
+                        System.out.println("2.Show all number of interactions by month");
+                        System.out.println("3.Exit");
+                        System.out.println("----------------");
+
+                        reportMenu = Console.validateInt("Type in number of your choice: ", 1, 3);
+                        if (reportMenu ==3)break;
+                        LocalDate startDate= LocalDate.parse(Console.validateDateWithLimit("From date (YYYY-MM-dd number only): "));
+                        LocalDate endDate =LocalDate.parse(Console.validateDateWithLimit("To date (YYYY-MM-dd number only): "));
+                        boolean isValid = false;
+                        while (!isValid) {
+                            if(startDate.compareTo(endDate)>0){
+                                System.out.println("Start date cannot be after end date!");
+                                startDate= LocalDate.parse(Console.validateDateWithLimit("From date (YYYY-MM-dd number only): "));
+                            }else{
+                                isValid =true;
+                            }
+                            if(endDate.compareTo(startDate)<0){
+                                System.out.println("End date cannot be before start date!");
+                                endDate= LocalDate.parse(Console.validateDateWithLimit("To date (YYYY-MM-dd number only): "));
+                                isValid =false;
+                            }else{
+                                isValid =true;
+                            }
+
+                        }
+                        switch (reportMenu){
+                            case 1 ->{
+                                report.showPotentialReport(manage.getAll(),startDate,endDate);
+                            }
+                            case 2 ->{
+                                report.showInterMonth(manage.getAll(),startDate,endDate);
+                            }
+                        }
+                    }while (true);
                 }
                 case 5 ->{
-
                     isrun = false;
                 }
             }
@@ -290,6 +308,8 @@ public class Main {
                 case 3 -> {System.exit(0);}
             }
         }
+
+
     }
 }
 

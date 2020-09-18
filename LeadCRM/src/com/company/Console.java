@@ -86,7 +86,7 @@ public class Console {
                 System.out.print(prompt);
                 result = scanner.next();
                 valDate = LocalDate.parse(result);
-                if (valDate.isBefore(LocalDate.now())){
+                if (valDate.compareTo(limitDate)>=0 && valDate.compareTo(LocalDate.now())<=0){
                     isValid = true;
                 }else{
                     System.out.println("Please input a valid date! (After 2000-01-01)");
