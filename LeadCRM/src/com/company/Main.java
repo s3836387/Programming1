@@ -163,8 +163,26 @@ public class Main {
                                         inter1.getLead().setId(newlead.getId());
                                     }
                                     case 3 -> {
-                                        temp = Console.validateEmail("Update email: ");
-                                        inter1.setInterMedium(temp);
+                                        // Interaction medium choice
+                                        System.out.println("1.Email");
+                                        System.out.println("2.Phone");
+                                        System.out.println("3.Face-to-face");
+                                        System.out.println("4.Social media");
+                                        int choice = Console.validateInt("Update contact medium: ", 1, 4);
+                                        switch (choice){
+                                            case 1 ->{
+                                                inter1.setInterMedium("email");
+                                            }
+                                            case 2 ->{
+                                                inter1.setInterMedium("phone");
+                                            }
+                                            case 3 ->{
+                                                inter1.setInterMedium("face-to-face");
+                                            }
+                                            case 4 ->{
+                                                inter1.setInterMedium("Social_media");
+                                            }
+                                        }
                                     }
                                     case 4 -> {
                                         Potential newpotential;
@@ -240,27 +258,7 @@ public class Main {
 //        InteractionManagement manage = new InteractionManagement();
 //        manage.initFile();
 //        manage.write(inter.toArray(), true);
-        Report report = new Report();
-        LocalDate startDate= LocalDate.parse(Console.validateDate("From date (YYYY-MM-dd number only): "));
-        LocalDate endDate =LocalDate.parse(Console.validateDate("To date (YYYY-MM-dd number only): "));;
-        boolean isValid = false;
-        while (!isValid) {
-            if(startDate.compareTo(endDate)>0){
-                System.out.println("Start date cannot be after end date!");
-                startDate= LocalDate.parse(Console.validateDate("From date (YYYY-MM-dd number only): "));
-            }else{
-                isValid =true;
-            }
-            if(endDate.compareTo(startDate)<0){
-                System.out.println("End date cannot be before start date!");
-                endDate= LocalDate.parse(Console.validateDate("To date (YYYY-MM-dd number only): "));
-                isValid =false;
-            }else{
-                isValid =true;
-            }
-
-        }
-        report.showInterMonth(manage.getAll(),startDate,endDate);
+    interManagement();
     }
 }
 
