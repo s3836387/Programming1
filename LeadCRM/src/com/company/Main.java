@@ -11,76 +11,89 @@ import java.util.List;
 
 public class Main {
     public static void leadManagement() throws IOException {
-        String leadFile = "src/com/company/leads.csv";
+        Boolean con = true;
+        while (con) {
+            String leadFile = "src/com/company/leads.csv";
 
-        //Initializing
-        FileProcessor fp = new FileProcessor();
-        Manage.setFP(fp);
-        Manage.setFilePath(leadFile);
-
-
-
-
-
-        Manage.showLeadRecords();
-
-        //Start lead management
-        System.out.println("-----------------");
-        System.out.println("1.Create new lead");
-        System.out.println("2.Modify an existing lead");
-        System.out.println("3.Show report based on age");
-        System.out.println("4.Back to main menu");
-        System.out.println("----------------------------");
+            //Initializing
+            FileProcessor fp = new FileProcessor();
+            Manage.setFP(fp);
+            Manage.setFilePath(leadFile);
 
 
-        int choice2 = Console.validateInt("Selection (number): ", 1, 4);
-        switch (choice2) {
-            case 1 -> {
-                Manage.addNewLead();
-                System.out.println("Added new lead!");
-            }
-            case 2 -> {
-                Manage.readLeadFile();
-                int indexOfLead = Manage.chooseLeadByID();
-                int choice = Console.validateInt("1.UPDATE 2.DELETE 3.CANCEL: ", 1, 3);
-                if (choice == 1) {
-                    Manage.updateLead(indexOfLead);
-                } else if (choice == 2) {
-                    //access interaction file to check if the is any related inters
-                    InteractionManagement manageInters = new InteractionManagement();
-                    InteractionManagement.initFile();
 
-                    System.out.println("Interaction related to this lead:");
-                    List<Integer> relateIntersID = Manage.showRelatedInteractionID(manageInters.getAll(), Manage.getLeads().get(indexOfLead).getId());
-                    for (int id : relateIntersID) {
-                        System.out.println("inter_" + String.format("%03d", id));
-                    }
-                    System.out.println("Process to delete chosen lead will also delete any related interactions, continue?");
-                    choice = Console.validateInt("1.Yes 2.No: ", 1, 2);
+
+
+            Manage.showLeadRecords();
+
+            //Start lead management
+            System.out.println("-----------------");
+            System.out.println("1.Create new lead");
+            System.out.println("2.Modify an existing lead");
+            System.out.println("3.Show report based on age");
+            System.out.println("4.Back to main menu");
+            System.out.println("----------------------------");
+
+
+            int choice2 = Console.validateInt("Selection (number): ", 1, 4);
+            switch (choice2) {
+                case 1 -> {
+                    Manage.addNewLead();
+                    System.out.println("Added new lead!");
+                }
+                case 2 -> {
+                    Manage.readLeadFile();
+                    int indexOfLead = Manage.chooseLeadByID();
+                    int choice = Console.validateInt("1.UPDATE 2.DELETE 3.CANCEL: ", 1, 3);
                     if (choice == 1) {
-                        Manage.removeLead(indexOfLead);
-                        for (int interID : relateIntersID) {
-                            System.out.println("Deleted inter_" + String.format("%03d", interID));
-                            Interaction temp = (Interaction) manageInters.getObject(interID);
-                            manageInters.deleteObject(temp);
+                        boolean loop = true;
+                        while (loop) {
+                            loop = Manage.updateLead(indexOfLead);
                         }
                     } else if (choice == 2) {
-                        System.out.println("Cancelled deletion");
+                        //access interaction file to check if the is any related inters
+                        InteractionManagement manageInters = new InteractionManagement();
+                        InteractionManagement.initFile();
+
+                        System.out.println("Interaction related to this lead:");
+                        List<Integer> relateIntersID = Manage.showRelatedInteractionID(manageInters.getAll(), Manage.getLeads().get(indexOfLead).getId());
+                        for (int id : relateIntersID) {
+                            System.out.println("inter_" + String.format("%03d", id));
+                        }
+                        System.out.println("Process to delete chosen lead will also delete any related interactions, continue?");
+                        System.out.println("------------------");
+                        choice = Console.validateInt("1.Yes   2.Cancel: ", 1, 2);
+                        if (choice == 1) {
+                            Manage.removeLead(indexOfLead);
+                            for (int interID : relateIntersID) {
+                                System.out.println("Deleted inter_" + String.format("%03d", interID));
+                                Interaction temp = (Interaction) manageInters.getObject(interID);
+                                manageInters.deleteObject(temp);
+                            }
+                        } else if (choice == 2) {
+                            System.out.println("-------------------");
+                            System.out.println("Cancelled deletion");
+                            System.out.println("--------------------");
+
+                        }
                     }
+
                 }
 
-            }
+                case 3 -> {
+                    System.out.println("-------REPORT--------");
+                    Manage.readLeadFile();
+                    Report report = new Report(Manage.getLeads());
+                    report.showRecordAge();
+                    con = false;
+                }
 
-            case 3 -> {
-                Manage.readLeadFile();
-                Report report = new Report(Manage.getLeads());
-                report.showRecordAge();
-            }
-
-            case 4 -> {
-
+                case 4 -> {
+                    con = false;
+                }
             }
         }
+
 
 
 

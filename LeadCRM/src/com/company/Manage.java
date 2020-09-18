@@ -51,13 +51,13 @@ public class Manage {
         Scanner scanner = new Scanner(System.in);
         String stringBDate;
         Lead lead = new Lead();
-        lead.setName(Console.validateName("Name: "));
+        lead.setName(Console.validateName("Name (alphabetical characters only): "));
         stringBDate = Console.validateDate("Birthday (YYYY-MM-DD): ");
         lead.setStringBDate(stringBDate);
         lead.setBirthDate(lead.stringToDate(stringBDate));
-        lead.setGender(Boolean.parseBoolean(Console.charIn("Gender (true/false): ")));
-        lead.setPhoneNumber(Console.validatePhone("Phone number: "));
-        lead.setEmail(Console.validateEmail("Email: "));
+        lead.setGender(Boolean.parseBoolean(Console.validateGender("Gender (true/false): ")));
+        lead.setPhoneNumber(Console.validatePhone("Phone number (10 digits format): "));
+        lead.setEmail(Console.validateEmail("Email (example@example.com): "));
         System.out.print("Address: ");
         lead.setAddress(scanner.nextLine());
         fileProcessor.writeNewLead(lead.leadToString());
@@ -83,7 +83,8 @@ public class Manage {
     }
 
     //update a lead in Lead array-list and update the file
-    public static void updateLead( int index) throws IOException {
+    public static boolean updateLead( int index) throws IOException {
+        Boolean loop = true;
         Scanner scanner = new Scanner(System.in);
         System.out.println("----------------");
         System.out.println("1.Name");
@@ -92,16 +93,17 @@ public class Manage {
         System.out.println("4.Phone");
         System.out.println("5.Email");
         System.out.println("6.Address");
+        System.out.println("7.Back to leads management menu");
         System.out.println("----------------");
-        int field = Console.validateInt("Type in one of the number represent the field you want to modify: ",1,6);
+        int field = Console.validateInt("Type in number represent your selection: ",1,7);
         String temp;
         switch (field) {
             case 1 -> {
-                String name = Console.validateName("Update name: ");
+                String name = Console.validateName("Update name (alphabetical characters only): ");
                 leads.get(index).setName(name);
             }
             case 2 -> {
-                temp = Console.validateDate("Update birthday: ");
+                temp = Console.validateDate("Update birthday: (number format YYYY-MM-dd)");
                 leads.get(index).setStringBDate(temp);
                 leads.get(index).setBirthDate(LocalDate.parse(temp));
             }
@@ -111,11 +113,11 @@ public class Manage {
             }
             case 4 -> {
 
-                temp = Console.validatePhone("Update phone: ");
+                temp = Console.validatePhone("Update phone (10 digits): ");
                 leads.get(index).setPhoneNumber(temp);
             }
             case 5 -> {
-                temp = Console.validateEmail("Update email: ");
+                temp = Console.validateEmail("Update email (example@example.com): ");
                 leads.get(index).setEmail(temp);
             }
             case 6 -> {
@@ -123,10 +125,13 @@ public class Manage {
                  temp = scanner.nextLine();
                 leads.get(index).setAddress(temp);
             }
+            case 7 -> {
+                loop = false;
+            }
 
         }
         fileProcessor.updateFile(leadsListToString(leads));
-
+        return loop;
     }
 
     //delete lead and write to file
