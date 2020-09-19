@@ -52,14 +52,14 @@ public class Console {
 
     //check if the id is existed
     public static int validateLeadID(List<Lead> leadList) {
-        int id = validateInt("Type in the ID (number only): ");
+        int id = validateInt("Type in the lead ID (number only): ");
         while (true) {
             for (Lead lead : leadList) {
                 if (lead.getId() == id) {
                     return id;
                 }
             }
-            id = validateInt("The id is not existed, type another: ");
+            id = validateInt("The lead id is not existed, type another: ");
         }
     }
 

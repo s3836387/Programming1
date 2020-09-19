@@ -4,22 +4,29 @@ import com.company.myPackage.*;
 
 
 import java.time.LocalDate;
-import java.util.Formatter;
 import java.io.IOException;
 import java.util.List;
 
 
 public class Main {
     public static void leadManagement() throws IOException {
-        Boolean cont = true;
+        //Validate csv file
+        boolean cont = true;
+        String leadFile = "src/com/company/leads.csv";
+        if (Manage.initFile()) {
+            System.out.println("No lead.csv file found, new file created!");
+        }
+
+        //Start the menu
         while (cont) {
-            String leadFile = "src/com/company/leads.csv";
+
 
             //Initializing
             FileProcessor fp = new FileProcessor();
             Manage.setFP(fp);
             Manage.setFilePath(leadFile);
 
+            //Show all the lead records
             Manage.showLeadRecords();
 
             //Start lead management
@@ -39,6 +46,7 @@ public class Main {
                     System.out.println("Added new lead!");
                 }
                 case 2 -> {
+                    //read lead file and store data, check if the id user enter is valid.
                     Manage.readLeadFile();
                     int indexOfLead = Manage.chooseLeadByID();
                     int choice = Console.validateInt("1.UPDATE 2.DELETE 3.CANCEL: ", 1, 3);
@@ -77,6 +85,7 @@ public class Main {
 
                 }
 
+                //Generate report
                 case 3 -> {
                     System.out.println("-------REPORT--------");
                     Manage.readLeadFile();
@@ -84,10 +93,8 @@ public class Main {
                     report.showRecordAge();
                     cont = false;
                 }
-
-                case 4 -> {
-                    cont = false;
-                }
+                //End loop and go back to the program main menu
+                case 4 -> cont = false;
             }
         }
 
@@ -95,25 +102,26 @@ public class Main {
 
     public static void interManagement() throws IOException {
         String leadFile = "src/com/company/leads.csv";
-        boolean isrun = true;
+        boolean isRun = true;
         //Initializing
         // ----- Lead management class -----
         FileProcessor fp = new FileProcessor();
+        Manage.initFile();
         Manage.setFP(fp);
         Manage.setFilePath(leadFile);
         // ----- Interaction management class -----
         InteractionManagement manage = new InteractionManagement();
         if(InteractionManagement.initFile()){
             System.out.println("New file created!");
-        };
-        while (isrun) {
+        }
+        while (isRun) {
             System.out.println("----------------Interaction Main Menu----------------");
             System.out.println("----------------");
             System.out.println("1.Show all records");
             System.out.println("2.Add new interaction");
             System.out.println("3.Select interaction");
             System.out.println("4.Report");
-            System.out.println("5.Exit");
+            System.out.println("5.Back to main menu");
             System.out.println("----------------");
 
             int interMenu = Console.validateInt("Type in number of your choice: ", 1, 5);
@@ -125,12 +133,11 @@ public class Main {
                 case 2 -> {
                     // Add interaction
                     Manage.readLeadFile();
-                    Lead newlead = Manage.getLead(Manage.chooseLeadByID());
-                    Potential newpotential;
+                    Lead newLead = Manage.getLead(Manage.chooseLeadByID());
                     Interaction newInter = new Interaction();
                     //-------- Get interaction info --------
                     newInter.setInterDate(LocalDate.parse(Console.validateDateWithLimit("Interaction date (YYYY-MM-DD): ")));
-                    newInter.setLead(newlead);
+                    newInter.setLead(newLead);
                     // Interaction medium choice
                     System.out.println("1.Email");
                     System.out.println("2.Phone");
@@ -138,18 +145,10 @@ public class Main {
                     System.out.println("4.Social media");
                     int choice = Console.validateInt("Choice: ", 1, 4);
                     switch (choice){
-                        case 1 ->{
-                            newInter.setInterMedium("email");
-                        }
-                        case 2 ->{
-                            newInter.setInterMedium("phone");
-                        }
-                        case 3 ->{
-                            newInter.setInterMedium("face-to-face");
-                        }
-                        case 4 ->{
-                            newInter.setInterMedium("Social_media");
-                        }
+                        case 1 -> newInter.setInterMedium("email");
+                        case 2 -> newInter.setInterMedium("phone");
+                        case 3 -> newInter.setInterMedium("face-to-face");
+                        case 4 -> newInter.setInterMedium("Social_media");
                     }
                     // Potential choice
                     System.out.println("1.Negative");
@@ -159,7 +158,7 @@ public class Main {
                     newInter.setPotential(choice);
                     //-------- End --------
                     // -------- Write into file --------
-                    manage.write(newInter, true, false);
+                    InteractionManagement.write(newInter, true, false);
                 }
                 case 3 -> {
                     int id = Console.validateInt("Type in the ID (number only): ");
@@ -194,8 +193,8 @@ public class Main {
                                     }
                                     case 2 -> {
                                         Manage.readLeadFile();
-                                        Lead newlead = Manage.getLead(Manage.chooseLeadByID());
-                                        inter1.getLead().setId(newlead.getId());
+                                        Lead newLead = Manage.getLead(Manage.chooseLeadByID());
+                                        inter1.getLead().setId(newLead.getId());
                                     }
                                     case 3 -> {
                                         // Interaction medium choice
@@ -205,22 +204,13 @@ public class Main {
                                         System.out.println("4.Social media");
                                         int choice = Console.validateInt("Update contact medium: ", 1, 4);
                                         switch (choice){
-                                            case 1 ->{
-                                                inter1.setInterMedium("email");
-                                            }
-                                            case 2 ->{
-                                                inter1.setInterMedium("phone");
-                                            }
-                                            case 3 ->{
-                                                inter1.setInterMedium("face-to-face");
-                                            }
-                                            case 4 ->{
-                                                inter1.setInterMedium("Social_media");
-                                            }
+                                            case 1 -> inter1.setInterMedium("email");
+                                            case 2 -> inter1.setInterMedium("phone");
+                                            case 3 -> inter1.setInterMedium("face-to-face");
+                                            case 4 -> inter1.setInterMedium("Social_media");
                                         }
                                     }
                                     case 4 -> {
-                                        Potential newpotential;
                                         System.out.println("1.Negative");
                                         System.out.println("2.Neutral");
                                         System.out.println("3.Positive");
@@ -233,9 +223,7 @@ public class Main {
                             } while (field != 5);
                             manage.updateObject(inter1);
                         }
-                        case 2 -> {
-                            manage.deleteObject(inter1);
-                        }
+                        case 2 -> manage.deleteObject(inter1);
                         default -> {
                         }
                     }
@@ -248,7 +236,7 @@ public class Main {
                         System.out.println("----------------");
                         System.out.println("1.Show all number of interactions by potential");
                         System.out.println("2.Show all number of interactions by month");
-                        System.out.println("3.Exit");
+                        System.out.println("3.Back to interactions menu");
                         System.out.println("----------------");
 
                         reportMenu = Console.validateInt("Type in number of your choice: ", 1, 3);
@@ -260,8 +248,6 @@ public class Main {
                             if(startDate.compareTo(endDate)>0){
                                 System.out.println("Start date cannot be after end date!");
                                 startDate= LocalDate.parse(Console.validateDateWithLimit("From date (YYYY-MM-dd number only): "));
-                            }else{
-                                isValid =true;
                             }
                             if(endDate.compareTo(startDate)<0){
                                 System.out.println("End date cannot be before start date!");
@@ -273,18 +259,12 @@ public class Main {
 
                         }
                         switch (reportMenu){
-                            case 1 ->{
-                                report.showPotentialReport(manage.getAll(),startDate,endDate);
-                            }
-                            case 2 ->{
-                                report.showInterMonth(manage.getAll(),startDate,endDate);
-                            }
+                            case 1 -> report.showPotentialReport(manage.getAll(),startDate,endDate);
+                            case 2 -> report.showInterMonth(manage.getAll(),startDate,endDate);
                         }
                     }while (true);
                 }
-                case 5 ->{
-                    isrun = false;
-                }
+                case 5 -> isRun = false;
             }
 
         }
@@ -294,7 +274,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         while (true) {
-
+            //Program main menu
             System.out.println();
             System.out.println("---MAIN MENU----");
             System.out.println("1.Manage leads");
@@ -303,9 +283,9 @@ public class Main {
             System.out.println("------------------------");
             int choice1 = Console.validateInt("Selection (number): ", 1, 3);
             switch (choice1) {
-                case 1 -> {leadManagement();}
-                case 2 -> {interManagement();}
-                case 3 -> {System.exit(0);}
+                case 1 -> leadManagement();
+                case 2 -> interManagement();
+                case 3 -> System.exit(0);
             }
         }
 

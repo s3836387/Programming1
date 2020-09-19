@@ -5,6 +5,7 @@ import com.company.myPackage.Interaction;
 import com.company.myPackage.Lead;
 import com.company.myPackage.crmObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,8 +14,6 @@ import java.util.Scanner;
 
 public class Manage {
 
-    private static String filePath;
-
     private static I_FileProcessor fileProcessor;
 
     private static List<Lead> leads;
@@ -22,6 +21,18 @@ public class Manage {
 
     public static I_FileProcessor file() {
         return fileProcessor;
+    }
+    //check if the file is existed, if not create new file
+    public static boolean initFile() {
+        try {
+            String filePath = "src/com/company/leads.csv";
+            File myObj = new File(filePath);
+            return myObj.createNewFile();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private Manage() {
@@ -84,7 +95,7 @@ public class Manage {
 
     //update a lead in Lead array-list and update the file
     public static boolean updateLead( int index) throws IOException {
-        Boolean loop = true;
+        boolean loop = true;
         Scanner scanner = new Scanner(System.in);
         System.out.println("----------------");
         System.out.println("1.Name");
@@ -125,9 +136,7 @@ public class Manage {
                  temp = scanner.nextLine();
                 leads.get(index).setAddress(temp);
             }
-            case 7 -> {
-                loop = false;
-            }
+            case 7 -> loop = false;
 
         }
         fileProcessor.updateFile(leadsListToString(leads));

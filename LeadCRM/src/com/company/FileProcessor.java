@@ -49,14 +49,14 @@ public class FileProcessor implements I_FileProcessor {
     public void showRecords() throws IOException {
         BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
         String line;
-        System.out.println("ID\tName\tBirthday\tGender\tPhone\tEmail\tAddress");
+        System.out.printf("%-10s %-10s %-15s %-10s %-15s %-30s %-30s %n","ID","NAME","BIRTHDATE","GENDER","PHONE","EMAIL","ADDRESS");
+
         while ((line = csvReader.readLine()) != null) {
             String[] data = line.split(",");
-            for (String record : data) {
-                System.out.print(record + "\t");
-            }
-            System.out.println();
+            System.out.printf("%-10s %-10s %-15s %-10s %-15s %-30s %-30s %n", data[0],data[1],data[2],data[3],data[4],data[5],data[6]);
+
         }
+        System.out.println();
         csvReader.close();
 
     }
