@@ -266,7 +266,6 @@ public class Main {
                 }
                 case 5 -> isRun = false;
             }
-
         }
 
 
